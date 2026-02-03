@@ -4,6 +4,10 @@
   --nationColW: 220px;
 }
 
+*{
+  box-sizing:border-box; /* (2) evita disallineamenti cumulativi */
+}
+
 body{
   margin:0;
   padding:0;
@@ -36,7 +40,7 @@ body{
   border:1px solid #d0d4da;
   color:#111;
   padding:6px 10px;
-  border-radius:8px;
+  border-radius:10px;
   cursor:pointer;
 }
 #exportBtn:hover{
@@ -68,7 +72,7 @@ body{
   box-shadow: 0 2px 0 rgba(0,0,0,0.03);
 }
 
-/* Corner header (nazioni) sticky incrociato */
+/* Corner header (nazioni) */
 .cornerCell{
   width:var(--nationColW);
   min-width:var(--nationColW);
@@ -76,22 +80,25 @@ body{
   left:0;
   z-index:90;
   background:#f0f1f3;
-  padding:8px 12px;
+  padding:10px 12px;
   font-weight:800;
   border-right:1px solid #d9dce1;
   color:#111;
 }
 
+/* Year header cell */
 .yearCell{
   width:var(--cellWidth);
   min-width:var(--cellWidth);
   text-align:center;
-  padding:8px 8px;
+  padding:10px 8px;
   border-left:1px solid #e6e8ec;
-  font-weight:700;
+  font-weight:800;
   color:#222;
+  background:#fff; /* (3) esplicito: niente differenze casuali */
 }
 
+/* Intro header cell: volutamente grigia tenue */
 .yearIntro{
   background:#f0f1f3;
 }
@@ -118,7 +125,7 @@ body{
   color:#111;
 
   display:flex;
-  align-items:flex-start;   /* (2) allinea contenuti in alto */
+  align-items:flex-start; /* contenuti in alto */
   gap:10px;
 }
 
@@ -136,11 +143,11 @@ body{
   flex-direction:column;
   align-items:flex-start;
   gap:4px;
-  min-width:0;              /* aiuta wrap in spazi stretti */
+  min-width:0;
 }
 
 .nationName{
-  font-weight:800;
+  font-weight:900;
   line-height:1.15;
 }
 
@@ -180,12 +187,12 @@ body{
   gap:10px;
   background:#fff;
   border:1px solid #e3e6ec;
-  padding:8px 9px;
-  border-radius:10px;
-  margin-bottom:8px;
+  padding:10px 10px;
+  border-radius:12px;
+  margin-bottom:10px;
   align-items:flex-start;
   box-shadow: 0 1px 0 rgba(0,0,0,0.03);
-  min-width:0;              /* (3) consente al testo di andare a capo bene */
+  min-width:0;
 }
 
 .event img{
@@ -197,10 +204,10 @@ body{
   font-size:13px;
   line-height:1.25;
   color:#111;
-  min-width:0;              /* (3) fondamentale in flex */
-  overflow-wrap:anywhere;   /* (3) wrap aggressivo */
-  word-break:break-word;    /* (3) fallback */
-  hyphens:auto;             /* (3) se il browser lo supporta */
+  min-width:0;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  hyphens:auto;
 }
 
 /* SPAN */
@@ -212,4 +219,17 @@ body{
 .ui-sortable-helper{
   outline:1px solid rgba(0,0,0,0.18);
   box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+}
+
+/* TOOLTIP (jQuery UI) */
+.ui-tooltip{
+  max-width: 380px;
+  background:#111;
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.15);
+  padding:10px 12px;
+  border-radius:10px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+  font-size:13px;
+  line-height:1.25;
 }

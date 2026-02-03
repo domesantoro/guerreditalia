@@ -97,7 +97,7 @@ function buildTimeline() {
 
     const row = $(`<div class="nationRow" data-nation="${key}"></div>`);
 
-    // (1) caption opzionale
+    // caption opzionale
     const captionHtml = nation.caption ? `<div class="nationCaption">${escapeHtml(nation.caption)}</div>` : "";
 
     const label = $(
@@ -124,7 +124,7 @@ function buildTimeline() {
 
       const y = years[i];
 
-      // SPAN: un blocco largo N colonne (celle tinte), eventi nella prima
+      // SPAN
       if (map[y] && map[y].span) {
 
         const span = map[y].span;
@@ -192,7 +192,7 @@ function mapCrono(crono) {
   for (let i = 0; i < crono.length; i++) {
     const c = crono[i];
     if (c.year === null) {
-      if (!introBlock) introBlock = c; // tieni solo il primo null
+      if (!introBlock) introBlock = c;
       continue;
     }
     map[c.year] = c;
@@ -227,19 +227,31 @@ function renderEvent(ev) {
   }
 
   box.append(`<div class="eventText">${ev.text}</div>`);
-  box.attr("title", stripHtml(ev.text));
+
+  // (1) Tooltip corretto: niente title (evita tooltip nativo), uso data-tooltip
+  const tooltipText = stripHtml(ev.text);
+  box.attr("data-tooltip", tooltipText);
+  box.removeAttr("title");
 
   return box;
 }
 
 /* ==========================
-   TOOLTIP
+   TOOLTIP (jQuery UI)
 ========================== */
 
 function enableTooltips() {
   $(document).tooltip({
     items: ".event",
-    track: true
+    track: true,
+    content: function () {
+      return $(this).attr("data-tooltip") || "";
+    },
+    position: {
+      my: "left top+12",
+      at: "left bottom",
+      collision: "flipfit"
+    }
   });
 }
 

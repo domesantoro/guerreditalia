@@ -13,6 +13,12 @@ const DATA = {
             {"icon": {"nation": "france"}, "text": "La Francia viene a farci visita."},
             {"icon": {"nation": "ottomans"}, "text": "L'Impero Ottomano ci invia un'ambasciata."}
           ]
+        },{
+          "year": 1530,
+          "events": [
+            {"icon": {"nation": "france"}, "text": "La Francia viene a farci visita."},
+            {"icon": {"nation": "ottomans"}, "text": "L'Impero Ottomano ci invia un'ambasciata."}
+          ]
         }
       ]
     },
