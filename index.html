@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Guerre d'Italia Timeline</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-ui.min.js"></script>
+
+  <!-- DATI STATICI -->
+  <script src="js/data.js"></script>
+
+  <!-- LOGICA APP -->
+  <script src="js/main.js"></script>
+
+  <!-- PRINT (separato) -->
+  <script src="js/print.js"></script>
+
+  <!-- Nascondi i tasti export (solo UI) -->
+  <style>
+    #exportSvgBtn,
+    #exportPngBtn,
+    #exportPdfBtn{
+      display:none !important;
+      visibility:hidden !important;
+      pointer-events:none !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="topBar">
+    <div class="topItem topZoom">
+      Zoom:
+      <input id="zoomSlider" type="range" min="100" max="500" value="260">
+    </div>
+
+    <div id="filters" class="topItem topFilters"></div>
+
+    <div class="topItem topExport">
+      <button id="printPdfBtn" type="button">Stampa PDF</button>
+
+      <!-- Restano nel DOM ma invisibili -->
+      <button id="exportSvgBtn" type="button">Export SVG</button>
+      <button id="exportPngBtn" type="button">Export PNG</button>
+      <button id="exportPdfBtn" type="button">Export PDF</button>
+    </div>
+  </div>
+
+  <div id="timeline">
+    <div id="yearsRow"></div>
+    <div id="rows"></div>
+  </div>
+
+</body>
+</html>

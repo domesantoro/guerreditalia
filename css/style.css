@@ -1,0 +1,254 @@
+:root{
+  --cellWidth: 200px;
+  --topBarH: 56px;
+  --nationColW: 220px;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  padding:0;
+  background:#f4f5f7;
+  color:#111;
+  font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* TOP BAR */
+#topBar{
+  display:flex;
+  align-items:center;
+  gap:12px 16px;
+  padding:10px 12px;
+  background:#fff;
+  border-bottom:1px solid #d9dce1;
+  position:sticky;
+  top:0;
+  z-index:100;
+  flex-wrap:wrap;
+}
+
+.topItem{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.topZoom{ flex: 0 0 auto; }
+
+.topFilters{
+  flex: 1 1 520px;
+  min-width: 260px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 14px;
+}
+
+.topExport{
+  flex: 0 0 auto;
+  margin-left:auto;
+  display:flex;
+  gap:8px;
+}
+
+/* BOTTONI TOPBAR */
+#printPdfBtn,
+#exportSvgBtn,
+#exportPngBtn,
+#exportPdfBtn{
+  background:#f1f2f4;
+  border:1px solid #d0d4da;
+  color:#111;
+  padding:6px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:13px;
+  line-height:1;
+}
+
+#printPdfBtn:hover,
+#exportSvgBtn:hover,
+#exportPngBtn:hover,
+#exportPdfBtn:hover{
+  background:#e9ebef;
+}
+
+.filterItem{
+  margin:0;
+  font-size:13px;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* TIMELINE (scroll container) */
+#timeline{
+  overflow:auto;
+  height: calc(100vh - var(--topBarH));
+  background:#f4f5f7;
+}
+
+#yearsRow,
+#rows{
+  width:max-content;
+  min-width:100%;
+}
+
+/* HEADER YEARS */
+#yearsRow{
+  display:flex;
+  position:sticky;
+  top:0;
+  background:#fff;
+  z-index:80;
+  border-bottom:1px solid #d9dce1;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.03);
+}
+
+.cornerCell{
+  width:var(--nationColW);
+  min-width:var(--nationColW);
+  position:sticky;
+  left:0;
+  z-index:90;
+  background:#f0f1f3;
+  padding:10px 12px;
+  font-weight:800;
+  border-right:1px solid #d9dce1;
+  color:#111;
+}
+
+.yearCell{
+  width:var(--cellWidth);
+  min-width:var(--cellWidth);
+  text-align:center;
+  padding:10px 8px;
+  border-left:1px solid #e6e8ec;
+  font-weight:800;
+  color:#222;
+  background:#fff;
+}
+
+.yearIntro{ background:#f0f1f3; }
+
+/* ROW */
+.nationRow{
+  display:flex;
+  width:max-content;
+  min-width:100%;
+  border-bottom:1px solid #e6e8ec;
+  border-top:1px solid #000;
+  cursor:grab;
+  background: transparent;
+}
+
+.nationLabel{
+  width:var(--nationColW);
+  min-width:var(--nationColW);
+  position:sticky;
+  left:0;
+  z-index:60;
+  background:#f7f8fa;
+  padding:10px 12px;
+  border-right:1px solid #e1e4ea;
+  font-weight:700;
+  color:#111;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.nationFlag{
+  height:24px;
+  width:auto;
+  display:block;
+  border-radius:3px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+  margin-top:2px;
+}
+
+.nationText{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:4px;
+  min-width:0;
+}
+
+.nationName{ font-weight:900; line-height:1.15; }
+
+.nationCaption{
+  font-weight:600;
+  font-size:12px;
+  color:#545b66;
+  line-height:1.15;
+}
+
+.cells{ display:flex; }
+
+.cell{
+  width:var(--cellWidth);
+  min-width:var(--cellWidth);
+  padding:10px;
+  border-left:1px solid #eef0f4;
+  background: transparent;
+}
+
+.introCell{ background: rgba(180, 185, 195, 0.22); }
+
+.event{
+  display:flex;
+  gap:10px;
+  background:#fff;
+  border:1px solid #e3e6ec;
+  padding:10px 10px;
+  border-radius:12px;
+  margin-bottom:10px;
+  align-items:flex-start;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+  min-width:0;
+}
+
+.event img{
+  flex-shrink:0;
+  display:block;
+}
+
+.eventText{
+  font-size:13px;
+  line-height:1.25;
+  color:#111;
+  min-width:0;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  hyphens:auto;
+}
+
+.ui-sortable-helper{
+  outline:1px solid rgba(0,0,0,0.18);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+}
+
+/* TOOLTIP CUSTOM */
+#appTooltip{
+  position:fixed;
+  z-index:10000;
+  left:-9999px;
+  top:-9999px;
+  opacity:0;
+  pointer-events:none;
+  background:#111;
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.15);
+  padding:10px 12px;
+  border-radius:10px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+  font-size:13px;
+  line-height:1.25;
+  max-width:420px;
+  transition:opacity 80ms linear;
+}
+#appTooltip.show{
+  opacity:1;
+}

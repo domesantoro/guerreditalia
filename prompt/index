@@ -1,0 +1,77 @@
+Ciao.
+
+Scrivimi una index dedicata alle guerre d'italia. Usa jquery.
+
+Prendi come dato di esempio il json che incollo in calce a questo messaggio. Via via lo varieremo in base alle necessità. Devi disegnare una pagina con una griglia di eventi centrale.
+La griglia deve essere divisa per righe che rappresentano le nazioni coinvolte (venezia, francia, ottomani, ecc) e per colonne che rappresentano gli anni (1500, 1501, ecc). Le colonne devono essere larghe 200 pixel, e le righe avranno altezza variabile, in modo che i singoli eventi possano essere rappresentati al loro interno.
+Usa un colore di sfondo basato sul colore della nazione (dal json) per ogni riga, ma attenualo con un alpha a 0.56. Se la colonna di un singolo evento, per nazione, è vuota, lascia lo sfondo trasparente.
+
+Le righe possono essere draggate in modo da spostare le nazioni più o meno in alto o in basso.
+
+Trovi gli anni nell'array "crono" di ogni nazione. Ogni anno ha un array di eventi, e può avere uno span (in questo caso si intende un periodo e va disegnato per il numero corretto di colonne, utilizzando un'unico blocco).
+L'array crono può avere alcuni item con year posto a null. Scartali tutti salvo il primo. Usa questo come blocco iniziale: in esso troverai degli eventi da trattare esattamente come gli altri, ma il blocco di intro 8che va posto all'estrema sinistra della glriglia) sarà colorato in grigio tenue
+
+Gli eventi possono avere un'icona, che può essere un file (in questo caso è un'immagine generica) o una nazione (in questo caso devi prendere il file della bandiera della nazione indicata, usata come path base imgs/). Gli eventi privi di icona non devono mostrare nulla a sinistra del testo.
+Per le icone generiche usa una larghezza di 32 pixel, e mantieni le proporzioni. Per le nazioni usa un'altezza di 32 pixel. Nel caso delle icone che rappresentano nazioni (lo desumi dalla chiave "nation") usa l'oggetto nations per recuperare il file della bandiera operando un lookup sulle bandiere dei vari items. Noterai che le bandiere hanno un ratio, che devi usare per calcolare la larhezza dell'icona della bandiera. Considera che credo basti che tu mantenga le proporzioni del file originale, ma vedi tu se preferisci usare il ratio.
+
+Cerca di adottare un design tableless, anche se non è fondamentale
+
+{
+    "nations": {
+        "venice": {
+            "name": "Repubblica di Venezia",
+            "color": [255, 215, 0],
+            "flag": {"file": "imgs/venice.png", "ratio": 0.4738},
+            "crono": [
+                {
+                    "year": 1508, 
+                    "events": [
+                        {"icon": {"nation": "france"}, "text": "La Francia viene a farci visita."},
+                        {"icon": {"nation": "ottomans"}, "text": "L'Impero Ottomano ci invia un'ambasciata."}
+                    ]
+                }
+            ]
+        },
+        "ottomans": {
+            "name": "Impero Ottomano",
+            "color": [0, 128, 0],
+            "flag": {"file": "imgs/ottomans.png", "ratio": 0.6668},
+            "crono": [
+                {
+                    "year": 1508, 
+                    "events": [
+                        {"icon": {"nation": "venice"}, "text": "L'Impero Ottomano ci invia un'ambasciata."}
+                    ]
+                }
+            ]
+        },
+        "france": {
+            "name": "Regno di Francia",
+            "color": [0, 0, 255],
+            "flag": {"file": "imgs/france.png", "ratio": 0.6668},
+            "crono": [
+                {
+                    "year": null,
+                    "events": [
+                        {"icon": {"file": "imgs/cash.png"}, "text": "Mancano e ssordi."},
+                        {"text": "Il re è un po' un <b>dito in culo</b>."},
+                    ]
+                },
+                {
+                    "year": 1510,
+                    "span": 4, 
+                    "events": [
+                        {"icon": {"file": "imgs/cash.png"}, "text": "Mancano e ssordi."}
+                    ]
+                },
+                {
+                    "year": 1508, 
+                    "events": [
+                        {"icon": {"nation": "venice"}, "text": "La Francia va a venezia."},
+                        {"icon": {"file": "imgs/cash.png"}, "text": "Soldi soldi soldi."}
+                    ]
+                }
+            ]
+        }
+    }
+}
