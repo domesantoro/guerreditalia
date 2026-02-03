@@ -16,6 +16,9 @@
   <!-- LOGICA APP -->
   <script src="js/main.js"></script>
 
+  <!-- PRINT (separato) -->
+  <script src="js/print.js"></script>
+
   <!-- Nascondi i tasti export (solo UI) -->
   <style>
     #exportSvgBtn,
@@ -39,9 +42,12 @@
     <div id="filters" class="topItem topFilters"></div>
 
     <div class="topItem topExport">
-      <button id="exportSvgBtn">Export SVG</button>
-      <button id="exportPngBtn">Export PNG</button>
-      <button id="exportPdfBtn">Export PDF</button>
+      <button id="printPdfBtn" type="button">Stampa PDF</button>
+
+      <!-- Restano nel DOM ma invisibili -->
+      <button id="exportSvgBtn" type="button">Export SVG</button>
+      <button id="exportPngBtn" type="button">Export PNG</button>
+      <button id="exportPdfBtn" type="button">Export PDF</button>
     </div>
   </div>
 

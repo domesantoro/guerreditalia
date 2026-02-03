@@ -51,6 +51,8 @@ body{
   gap:8px;
 }
 
+/* BOTTONI TOPBAR */
+#printPdfBtn,
 #exportSvgBtn,
 #exportPngBtn,
 #exportPdfBtn{
@@ -60,7 +62,11 @@ body{
   padding:6px 10px;
   border-radius:10px;
   cursor:pointer;
+  font-size:13px;
+  line-height:1;
 }
+
+#printPdfBtn:hover,
 #exportSvgBtn:hover,
 #exportPngBtn:hover,
 #exportPdfBtn:hover{
@@ -224,7 +230,7 @@ body{
   box-shadow: 0 10px 20px rgba(0,0,0,0.10);
 }
 
-/* TOOLTIP CUSTOM (nessun elemento injected) */
+/* TOOLTIP CUSTOM */
 #appTooltip{
   position:fixed;
   z-index:10000;
@@ -240,8 +246,8 @@ body{
   box-shadow: 0 12px 24px rgba(0,0,0,0.18);
   font-size:13px;
   line-height:1.25;
-  max-width: 420px;
-  transition: opacity 80ms linear;
+  max-width:420px;
+  transition:opacity 80ms linear;
 }
 #appTooltip.show{
   opacity:1;
