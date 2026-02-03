@@ -1,0 +1,48 @@
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: fit-content !important;
+  height: fit-content !important;
+  overflow: visible !important;
+  background: white !important;
+}
+
+/* colori fedeli */
+
+* {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* nasconde UI */
+
+#topBar {
+  display: none !important;
+}
+
+/* timeline completa */
+
+#timeline {
+  display: inline-block !important;
+  width: max-content !important;
+  overflow: visible !important;
+}
+
+#yearsRow,
+#rows {
+  width: max-content !important;
+}
+
+/* evita spezzature */
+
+.nationRow {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* pagina senza margini */
+
+@page {
+  size: auto;
+  margin: 0;
+}
