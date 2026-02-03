@@ -14,6 +14,12 @@ const DATA = {
             {"icon": {"nation": "ottomans"}, "text": "L'Impero Ottomano ci invia un'ambasciata."}
           ]
         },{
+          "year": 1509,
+          "events": [
+            {"icon": {"nation": "france"}, "text": "La Francia viene a farci visita."},
+            {"icon": {"nation": "ottomans"}, "text": "L'Impero Ottomano ci invia un'ambasciata."}
+          ]
+        },{
           "year": 1530,
           "events": [
             {"icon": {"nation": "france"}, "text": "La Francia viene a farci visita."},
@@ -67,6 +73,62 @@ const DATA = {
             {"text": "Succedono cose."}
           ]
         }
+      ]
+    },
+    "sri": {
+      "name": "Sacro Romano Impero",
+      "color": [0, 0, 255],
+      "flag": {"file": "imgs/france.png", "ratio": 0.6668},
+      "crono": [
+      ]
+    },
+    "papacy": {
+      "name": "Stato della Chiesa",
+      "color": [0, 0, 255],
+      "flag": {"file": "imgs/france.png", "ratio": 0.6668},
+      "crono": [
+      ]
+    },
+    "england": {
+      "name": "Inghilterra",
+      "color": [0, 0, 255],
+      "flag": {"file": "imgs/france.png", "ratio": 0.6668},
+      "crono": [
+      ]
+    },
+    "spain": {
+      "name": "Spagna",
+      "color": [0, 0, 255],
+      "flag": {"file": "imgs/france.png", "ratio": 0.6668},
+      "crono": [
+      ]
+    },
+    "savoy": {
+      "name": "Savoia",
+      "color": [0, 0, 255],
+      "flag": {"file": "imgs/france.png", "ratio": 0.6668},
+      "crono": [
+      ]
+    },
+    "milan": {
+      "name": "Ducato di Milano",
+      "color": [0, 0, 255],
+      "flag": {"file": "imgs/france.png", "ratio": 0.6668},
+      "crono": [
+      ]
+    },
+    "parma": {
+      "name": "Parma e Piacenza",
+      "color": [0, 0, 255],
+      "flag": {"file": "imgs/france.png", "ratio": 0.6668},
+      "crono": [
+      ]
+    },
+    "naples": {
+      "name": "Regno di Napoli",
+      "color": [0, 0, 255],
+      "flag": {"file": "imgs/france.png", "ratio": 0.6668},
+      "crono": [
       ]
     }
   }

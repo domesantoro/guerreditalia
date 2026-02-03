@@ -9,6 +9,10 @@ $(function () {
     return;
   }
 
+  // leggi CELL_WIDTH dallo slider (evita mismatch iniziali)
+  const sliderInit = parseInt($("#zoomSlider").val(), 10);
+  if (!Number.isNaN(sliderInit)) CELL_WIDTH = sliderInit;
+
   syncTopBarHeight();
   $(window).on("resize", syncTopBarHeight);
 
@@ -71,7 +75,10 @@ function buildFilters() {
   $("#filters input[type='checkbox']").on("change", function () {
     const id = $(this).data("nation");
     $(`.nationRow[data-nation="${id}"]`).toggle(this.checked);
+    syncTopBarHeight(); // topbar può cambiare altezza se wrappa
   });
+
+  syncTopBarHeight();
 }
 
 /* ==========================
@@ -83,7 +90,7 @@ function buildTimeline() {
   $("#yearsRow").empty();
   $("#rows").empty();
 
-  const years = collectYears();
+  const years = collectYearsContinuous();
 
   // Header: colonna nazioni + intro + anni
   $("#yearsRow").append(`<div class="cornerCell">Nazioni</div>`);
@@ -97,7 +104,6 @@ function buildTimeline() {
 
     const row = $(`<div class="nationRow" data-nation="${key}"></div>`);
 
-    // caption opzionale
     const captionHtml = nation.caption ? `<div class="nationCaption">${escapeHtml(nation.caption)}</div>` : "";
 
     const label = $(
@@ -114,7 +120,7 @@ function buildTimeline() {
 
     const { map, introBlock } = mapCrono(nation.crono);
 
-    // Intro cell: sempre grigio tenue (non tinto con colore nazione)
+    // Intro cell (sempre grigio)
     const introCell = $(`<div class="cell introCell"></div>`);
     if (introBlock) introBlock.events.forEach(ev => introCell.append(renderEvent(ev)));
     cells.append(introCell);
@@ -124,36 +130,37 @@ function buildTimeline() {
 
       const y = years[i];
 
-      // SPAN
+      // SPAN come UNICA CELLA larga N colonne (simula colspan)
       if (map[y] && map[y].span) {
 
         const span = map[y].span;
-        const wrap = $(`<div class="spanBlock"></div>`);
 
-        for (let s = 0; s < span; s++) {
-          const sc = $(`<div class="spanCell tinted"></div>`);
-          sc.css("background", rgba(nation.color, 0.56)); // alpha 0.56
+        const spanCell = $(`<div class="cell spanCell"></div>`);
+        spanCell.attr("data-span", span);
+        spanCell.css("background", rgba(nation.color, 0.56));
 
-          if (s === 0) {
-            map[y].events.forEach(ev => sc.append(renderEvent(ev)));
-          }
+        // larghezza = span * cellWidth
+        spanCell.css({
+          width: (CELL_WIDTH * span) + "px",
+          minWidth: (CELL_WIDTH * span) + "px"
+        });
 
-          wrap.append(sc);
-        }
+        map[y].events.forEach(ev => spanCell.append(renderEvent(ev)));
+        cells.append(spanCell);
 
-        cells.append(wrap);
+        // salta le successive (span-1) colonne coperte
         i += (span - 1);
         continue;
       }
 
-      // Year with events
+      // Year with events: tinta
       if (map[y]) {
-        const c = $(`<div class="cell tinted"></div>`);
-        c.css("background", rgba(nation.color, 0.56)); // alpha 0.56
+        const c = $(`<div class="cell"></div>`);
+        c.css("background", rgba(nation.color, 0.56));
         map[y].events.forEach(ev => c.append(renderEvent(ev)));
         cells.append(c);
       } else {
-        // Empty year: transparent
+        // Empty year: trasparente
         cells.append(`<div class="cell"></div>`);
       }
     }
@@ -168,21 +175,32 @@ function buildTimeline() {
     containment: "parent",
     tolerance: "pointer"
   });
+
+  refreshSpanWidths();
 }
 
-function collectYears() {
-  const yearsSet = new Set();
+function collectYearsContinuous() {
+  let minY = null;
+  let maxY = null;
 
+  // trova min/max considerando anche gli span
   Object.values(DATA.nations).forEach(n => {
-    n.crono.forEach(c => {
-      if (c.year !== null) yearsSet.add(c.year);
-      if (c.span && c.year !== null) {
-        for (let i = 1; i < c.span; i++) yearsSet.add(c.year + i);
-      }
+    (n.crono || []).forEach(c => {
+      if (c.year === null) return;
+
+      const base = c.year;
+      if (minY === null || base < minY) minY = base;
+
+      const end = c.span ? (base + c.span - 1) : base;
+      if (maxY === null || end > maxY) maxY = end;
     });
   });
 
-  return [...yearsSet].sort((a, b) => a - b);
+  if (minY === null || maxY === null) return [];
+
+  const years = [];
+  for (let y = minY; y <= maxY; y++) years.push(y);
+  return years;
 }
 
 function mapCrono(crono) {
@@ -199,6 +217,17 @@ function mapCrono(crono) {
   }
 
   return { map, introBlock };
+}
+
+function refreshSpanWidths() {
+  $(".spanCell").each(function () {
+    const span = parseInt($(this).attr("data-span"), 10);
+    if (!span || span < 2) return;
+    $(this).css({
+      width: (CELL_WIDTH * span) + "px",
+      minWidth: (CELL_WIDTH * span) + "px"
+    });
+  });
 }
 
 /* ==========================
@@ -228,7 +257,7 @@ function renderEvent(ev) {
 
   box.append(`<div class="eventText">${ev.text}</div>`);
 
-  // (1) Tooltip corretto: niente title (evita tooltip nativo), uso data-tooltip
+  // Tooltip: niente title, uso data-tooltip
   const tooltipText = stripHtml(ev.text);
   box.attr("data-tooltip", tooltipText);
   box.removeAttr("title");
@@ -263,6 +292,7 @@ function wireZoom() {
   $("#zoomSlider").on("input", function () {
     CELL_WIDTH = parseInt(this.value, 10);
     applyZoom(CELL_WIDTH);
+    refreshSpanWidths();
   });
 }
 
@@ -271,30 +301,123 @@ function applyZoom(w) {
 }
 
 /* ==========================
-   EXPORT SVG
+   EXPORT SVG (XHTML well-formed)
 ========================== */
 
 function wireExport() {
   $("#exportBtn").on("click", function () {
+    exportTimelineAsStandaloneSVG();
+  });
+}
 
-    const node = document.querySelector("#timeline");
-    const serialized = new XMLSerializer().serializeToString(node);
+function exportTimelineAsStandaloneSVG() {
 
-    const svg =
-`<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900">
+  const timelineEl = document.querySelector("#timeline");
+  const yearsRowEl = document.querySelector("#yearsRow");
+  const rowsEl = document.querySelector("#rows");
+
+  const contentWidth = Math.max(yearsRowEl.scrollWidth, rowsEl.scrollWidth);
+  const contentHeight = yearsRowEl.scrollHeight + rowsEl.scrollHeight;
+
+  // clone "pulito" (niente sticky per export)
+  const clone = timelineEl.cloneNode(true);
+
+  // rimuovi overflow/height e sticky per evitare layout strano in SVG
+  clone.style.overflow = "visible";
+  clone.style.height = "auto";
+  clone.style.background = "#f4f5f7";
+
+  // sticky -> static nel clone
+  clone.querySelectorAll("#yearsRow, .cornerCell, .nationLabel").forEach(el => {
+    el.style.position = "static";
+    el.style.left = "auto";
+    el.style.top = "auto";
+    el.style.zIndex = "auto";
+    el.style.boxShadow = "none";
+  });
+
+  // forza larghezze span nel clone
+  clone.querySelectorAll(".spanCell").forEach(el => {
+    const span = parseInt(el.getAttribute("data-span"), 10);
+    if (span && span > 1) {
+      el.style.width = (CELL_WIDTH * span) + "px";
+      el.style.minWidth = (CELL_WIDTH * span) + "px";
+    }
+  });
+
+  // CSS incorporato
+  const cssText = collectSameOriginCSS();
+
+  const rootStyle =
+`:root{
+  --cellWidth:${CELL_WIDTH}px;
+  --nationColW:${getComputedStyle(document.documentElement).getPropertyValue("--nationColW") || "220px"};
+  --topBarH:56px;
+}
+`;
+
+  // XHTML string (well-formed)
+  let bodyHtml = clone.innerHTML;
+
+  // 1) self-close void tags (img è quello che ti rompe l’XML)
+  bodyHtml = selfCloseVoidTags(bodyHtml);
+
+  // 2) escape ampersand “nudi” (evita XML break)
+  bodyHtml = escapeBareAmpersands(bodyHtml);
+
+  // stesso per CSS (di solito non serve, ma safe)
+  const cssSafe = escapeBareAmpersands(selfCloseVoidTags(cssText));
+
+  const xhtml =
+`<div xmlns="http://www.w3.org/1999/xhtml">
+  <style>${rootStyle}\n${cssSafe}</style>
+  ${bodyHtml}
+</div>`;
+
+  const svg =
+`<svg xmlns="http://www.w3.org/2000/svg" width="${contentWidth}" height="${contentHeight}">
   <foreignObject width="100%" height="100%">
-    ${serialized}
+    ${xhtml}
   </foreignObject>
 </svg>`;
 
-    const blob = new Blob([svg], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
+  const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "timeline.svg";
-    a.click();
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "timeline.svg";
+  a.click();
 
-    URL.revokeObjectURL(url);
-  });
+  URL.revokeObjectURL(url);
+}
+
+function collectSameOriginCSS() {
+  let out = "";
+  for (const sheet of Array.from(document.styleSheets)) {
+    try {
+      const rules = sheet.cssRules;
+      if (!rules) continue;
+      for (const r of Array.from(rules)) out += r.cssText + "\n";
+    } catch (e) {
+      // ignora cross-origin
+    }
+  }
+  return out;
+}
+
+function selfCloseVoidTags(html) {
+  // chiude i void tags in stile XHTML
+  return html
+    .replace(/<img([^>]*)>/gi, "<img$1 />")
+    .replace(/<br([^>]*)>/gi, "<br$1 />")
+    .replace(/<hr([^>]*)>/gi, "<hr$1 />")
+    .replace(/<input([^>]*)>/gi, "<input$1 />")
+    .replace(/<meta([^>]*)>/gi, "<meta$1 />")
+    .replace(/<link([^>]*)>/gi, "<link$1 />");
+}
+
+function escapeBareAmpersands(s) {
+  // converte & non già parte di un'entità in &amp;
+  return s.replace(/&(?![a-zA-Z]+;|#\d+;|#x[0-9a-fA-F]+;)/g, "&amp;");
 }

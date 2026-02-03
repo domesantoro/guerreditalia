@@ -5,7 +5,7 @@
 }
 
 *{
-  box-sizing:border-box; /* (2) evita disallineamenti cumulativi */
+  box-sizing:border-box;
 }
 
 body{
@@ -19,20 +19,42 @@ body{
 /* TOP BAR */
 #topBar{
   display:flex;
-  gap:18px;
   align-items:center;
+  gap:12px 16px;
   padding:10px 12px;
   background:#fff;
   border-bottom:1px solid #d9dce1;
   position:sticky;
   top:0;
   z-index:100;
+
+  /* FIX overflow con molte nazioni */
+  flex-wrap:wrap;
 }
 
 .topItem{
   display:flex;
   align-items:center;
   gap:8px;
+}
+
+.topZoom{
+  flex: 0 0 auto;
+}
+
+.topFilters{
+  flex: 1 1 520px;
+  min-width: 260px;
+
+  /* i checkbox vanno a capo */
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 14px;
+}
+
+.topExport{
+  flex: 0 0 auto;
+  margin-left:auto;
 }
 
 #exportBtn{
@@ -49,9 +71,12 @@ body{
 
 /* FILTERS */
 .filterItem{
-  margin-right:10px;
+  margin:0;
   font-size:13px;
   white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
 
 /* TIMELINE (scroll container) */
@@ -59,6 +84,14 @@ body{
   overflow:auto;
   height: calc(100vh - var(--topBarH));
   background:#f4f5f7;
+}
+
+/* IMPORTANTISSIMO: la griglia deve avere larghezza "reale" (scrollabile)
+   altrimenti i bordi si fermano alla viewport */
+#yearsRow,
+#rows{
+  width:max-content;
+  min-width:100%;
 }
 
 /* HEADER YEARS (sticky inside #timeline) */
@@ -95,10 +128,10 @@ body{
   border-left:1px solid #e6e8ec;
   font-weight:800;
   color:#222;
-  background:#fff; /* (3) esplicito: niente differenze casuali */
+  background:#fff;
 }
 
-/* Intro header cell: volutamente grigia tenue */
+/* Intro header cell */
 .yearIntro{
   background:#f0f1f3;
 }
@@ -106,7 +139,10 @@ body{
 /* ROW */
 .nationRow{
   display:flex;
+  width:max-content;
+  min-width:100%;
   border-bottom:1px solid #e6e8ec;
+  border-top:1px solid #000;  /* richiesto: continuo */
   cursor:grab;
   background: transparent;
 }
@@ -125,7 +161,7 @@ body{
   color:#111;
 
   display:flex;
-  align-items:flex-start; /* contenuti in alto */
+  align-items:flex-start;
   gap:10px;
 }
 
@@ -163,7 +199,7 @@ body{
 }
 
 /* CELL */
-.cell, .spanCell{
+.cell{
   width:var(--cellWidth);
   min-width:var(--cellWidth);
   padding:10px;
@@ -176,9 +212,9 @@ body{
   background: rgba(180, 185, 195, 0.22);
 }
 
-/* tinted cells: background messo inline da JS */
-.tinted{
-  /* placeholder */
+/* SPAN as single cell */
+.spanCell{
+  /* width/min-width set inline by JS: span * cellWidth */
 }
 
 /* EVENT */
@@ -208,11 +244,6 @@ body{
   overflow-wrap:anywhere;
   word-break:break-word;
   hyphens:auto;
-}
-
-/* SPAN */
-.spanBlock{
-  display:flex;
 }
 
 /* sortable helper */
