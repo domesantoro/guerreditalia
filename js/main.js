@@ -39,6 +39,15 @@ function renderNationFlag(nationKey) {
   return `<img class="nationFlag" src="${n.flag.file}" alt="${n.name}">`;
 }
 
+function escapeHtml(s) {
+  return String(s)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 /* ==========================
    FILTER UI
 ========================== */
@@ -88,10 +97,16 @@ function buildTimeline() {
 
     const row = $(`<div class="nationRow" data-nation="${key}"></div>`);
 
+    // (1) caption opzionale
+    const captionHtml = nation.caption ? `<div class="nationCaption">${escapeHtml(nation.caption)}</div>` : "";
+
     const label = $(
       `<div class="nationLabel">
         ${renderNationFlag(key)}
-        <span>${nation.name}</span>
+        <div class="nationText">
+          <div class="nationName">${nation.name}</div>
+          ${captionHtml}
+        </div>
       </div>`
     );
 

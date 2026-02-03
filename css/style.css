@@ -61,7 +61,7 @@ body{
 #yearsRow{
   display:flex;
   position:sticky;
-  top:0;                 /* FIX OVERLAP: sticky rispetto a #timeline */
+  top:0;
   background:#fff;
   z-index:80;
   border-bottom:1px solid #d9dce1;
@@ -101,7 +101,7 @@ body{
   display:flex;
   border-bottom:1px solid #e6e8ec;
   cursor:grab;
-  background: transparent; /* niente tinta sulla riga */
+  background: transparent;
 }
 
 /* Nation label column sticky */
@@ -118,7 +118,7 @@ body{
   color:#111;
 
   display:flex;
-  align-items:center;
+  align-items:flex-start;   /* (2) allinea contenuti in alto */
   gap:10px;
 }
 
@@ -128,6 +128,27 @@ body{
   display:block;
   border-radius:3px;
   box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+  margin-top:2px;
+}
+
+.nationText{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:4px;
+  min-width:0;              /* aiuta wrap in spazi stretti */
+}
+
+.nationName{
+  font-weight:800;
+  line-height:1.15;
+}
+
+.nationCaption{
+  font-weight:600;
+  font-size:12px;
+  color:#545b66;
+  line-height:1.15;
 }
 
 .cells{
@@ -140,7 +161,7 @@ body{
   min-width:var(--cellWidth);
   padding:10px;
   border-left:1px solid #eef0f4;
-  background: transparent; /* celle vuote trasparenti */
+  background: transparent;
 }
 
 /* intro cell (leftmost) */
@@ -164,6 +185,7 @@ body{
   margin-bottom:8px;
   align-items:flex-start;
   box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+  min-width:0;              /* (3) consente al testo di andare a capo bene */
 }
 
 .event img{
@@ -175,6 +197,10 @@ body{
   font-size:13px;
   line-height:1.25;
   color:#111;
+  min-width:0;              /* (3) fondamentale in flex */
+  overflow-wrap:anywhere;   /* (3) wrap aggressivo */
+  word-break:break-word;    /* (3) fallback */
+  hyphens:auto;             /* (3) se il browser lo supporta */
 }
 
 /* SPAN */

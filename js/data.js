@@ -54,6 +54,12 @@ const DATA = {
             {"icon": {"nation": "venice"}, "text": "La Francia va a Venezia."},
             {"icon": {"file": "imgs/cash.png"}, "text": "Soldi soldi soldi."}
           ]
+        },
+        {
+          "year": 1559,
+          "events": [
+            {"text": "Succedono cose."}
+          ]
         }
       ]
     }
