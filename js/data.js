@@ -3,6 +3,7 @@ const DATA = {
   "nations": {
     "venice": {
       "name": "Repubblica di Venezia",
+      "caption": "Questa è uan caption di esempio per venezia.",
       "color": [255, 215, 0],
       "flag": {"file": "imgs/venice.png", "ratio": 0.4738},
       "crono": [
