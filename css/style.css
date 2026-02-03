@@ -1,0 +1,189 @@
+:root{
+  --cellWidth: 200px;
+  --topBarH: 56px;
+  --nationColW: 220px;
+}
+
+body{
+  margin:0;
+  padding:0;
+  background:#f4f5f7;
+  color:#111;
+  font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* TOP BAR */
+#topBar{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  padding:10px 12px;
+  background:#fff;
+  border-bottom:1px solid #d9dce1;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.topItem{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+#exportBtn{
+  background:#f1f2f4;
+  border:1px solid #d0d4da;
+  color:#111;
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+#exportBtn:hover{
+  background:#e9ebef;
+}
+
+/* FILTERS */
+.filterItem{
+  margin-right:10px;
+  font-size:13px;
+  white-space:nowrap;
+}
+
+/* TIMELINE (scroll container) */
+#timeline{
+  overflow:auto;
+  height: calc(100vh - var(--topBarH));
+  background:#f4f5f7;
+}
+
+/* HEADER YEARS (sticky inside #timeline) */
+#yearsRow{
+  display:flex;
+  position:sticky;
+  top:0;                 /* FIX OVERLAP: sticky rispetto a #timeline */
+  background:#fff;
+  z-index:80;
+  border-bottom:1px solid #d9dce1;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.03);
+}
+
+/* Corner header (nazioni) sticky incrociato */
+.cornerCell{
+  width:var(--nationColW);
+  min-width:var(--nationColW);
+  position:sticky;
+  left:0;
+  z-index:90;
+  background:#f0f1f3;
+  padding:8px 12px;
+  font-weight:800;
+  border-right:1px solid #d9dce1;
+  color:#111;
+}
+
+.yearCell{
+  width:var(--cellWidth);
+  min-width:var(--cellWidth);
+  text-align:center;
+  padding:8px 8px;
+  border-left:1px solid #e6e8ec;
+  font-weight:700;
+  color:#222;
+}
+
+.yearIntro{
+  background:#f0f1f3;
+}
+
+/* ROW */
+.nationRow{
+  display:flex;
+  border-bottom:1px solid #e6e8ec;
+  cursor:grab;
+  background: transparent; /* niente tinta sulla riga */
+}
+
+/* Nation label column sticky */
+.nationLabel{
+  width:var(--nationColW);
+  min-width:var(--nationColW);
+  position:sticky;
+  left:0;
+  z-index:60;
+  background:#f7f8fa;
+  padding:10px 12px;
+  border-right:1px solid #e1e4ea;
+  font-weight:700;
+  color:#111;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.nationFlag{
+  height:24px;
+  width:auto;
+  display:block;
+  border-radius:3px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+}
+
+.cells{
+  display:flex;
+}
+
+/* CELL */
+.cell, .spanCell{
+  width:var(--cellWidth);
+  min-width:var(--cellWidth);
+  padding:10px;
+  border-left:1px solid #eef0f4;
+  background: transparent; /* celle vuote trasparenti */
+}
+
+/* intro cell (leftmost) */
+.introCell{
+  background: rgba(180, 185, 195, 0.22);
+}
+
+/* tinted cells: background messo inline da JS */
+.tinted{
+  /* placeholder */
+}
+
+/* EVENT */
+.event{
+  display:flex;
+  gap:10px;
+  background:#fff;
+  border:1px solid #e3e6ec;
+  padding:8px 9px;
+  border-radius:10px;
+  margin-bottom:8px;
+  align-items:flex-start;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+}
+
+.event img{
+  flex-shrink:0;
+  display:block;
+}
+
+.eventText{
+  font-size:13px;
+  line-height:1.25;
+  color:#111;
+}
+
+/* SPAN */
+.spanBlock{
+  display:flex;
+}
+
+/* sortable helper */
+.ui-sortable-helper{
+  outline:1px solid rgba(0,0,0,0.18);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+}

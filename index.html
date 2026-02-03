@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Guerre d'Italia Timeline</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-ui.min.js"></script>
+
+  <!-- DATI STATICI -->
+  <script src="js/data.js"></script>
+
+  <!-- LOGICA APP -->
+  <script src="js/main.js"></script>
+</head>
+
+<body>
+
+  <div id="topBar">
+    <div class="topItem">
+      Zoom:
+      <input id="zoomSlider" type="range" min="100" max="350" value="200">
+    </div>
+
+    <div id="filters" class="topItem"></div>
+
+    <button id="exportBtn" class="topItem">Export SVG</button>
+  </div>
+
+  <div id="timeline">
+    <div id="yearsRow"></div>
+    <div id="rows"></div>
+  </div>
+
+</body>
+</html>
