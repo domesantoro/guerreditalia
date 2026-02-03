@@ -15,6 +15,17 @@
 
   <!-- LOGICA APP -->
   <script src="js/main.js"></script>
+
+  <!-- Nascondi i tasti export (solo UI) -->
+  <style>
+    #exportSvgBtn,
+    #exportPngBtn,
+    #exportPdfBtn{
+      display:none !important;
+      visibility:hidden !important;
+      pointer-events:none !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -22,12 +33,16 @@
   <div id="topBar">
     <div class="topItem topZoom">
       Zoom:
-      <input id="zoomSlider" type="range" min="100" max="350" value="200">
+      <input id="zoomSlider" type="range" min="100" max="500" value="260">
     </div>
 
     <div id="filters" class="topItem topFilters"></div>
 
-    <button id="exportBtn" class="topItem topExport">Export SVG</button>
+    <div class="topItem topExport">
+      <button id="exportSvgBtn">Export SVG</button>
+      <button id="exportPngBtn">Export PNG</button>
+      <button id="exportPdfBtn">Export PDF</button>
+    </div>
   </div>
 
   <div id="timeline">

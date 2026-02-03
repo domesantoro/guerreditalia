@@ -4,9 +4,7 @@
   --nationColW: 220px;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{ box-sizing:border-box; }
 
 body{
   margin:0;
@@ -27,8 +25,6 @@ body{
   position:sticky;
   top:0;
   z-index:100;
-
-  /* FIX overflow con molte nazioni */
   flex-wrap:wrap;
 }
 
@@ -38,15 +34,11 @@ body{
   gap:8px;
 }
 
-.topZoom{
-  flex: 0 0 auto;
-}
+.topZoom{ flex: 0 0 auto; }
 
 .topFilters{
   flex: 1 1 520px;
   min-width: 260px;
-
-  /* i checkbox vanno a capo */
   display:flex;
   flex-wrap:wrap;
   gap:8px 14px;
@@ -55,9 +47,13 @@ body{
 .topExport{
   flex: 0 0 auto;
   margin-left:auto;
+  display:flex;
+  gap:8px;
 }
 
-#exportBtn{
+#exportSvgBtn,
+#exportPngBtn,
+#exportPdfBtn{
   background:#f1f2f4;
   border:1px solid #d0d4da;
   color:#111;
@@ -65,11 +61,12 @@ body{
   border-radius:10px;
   cursor:pointer;
 }
-#exportBtn:hover{
+#exportSvgBtn:hover,
+#exportPngBtn:hover,
+#exportPdfBtn:hover{
   background:#e9ebef;
 }
 
-/* FILTERS */
 .filterItem{
   margin:0;
   font-size:13px;
@@ -86,15 +83,13 @@ body{
   background:#f4f5f7;
 }
 
-/* IMPORTANTISSIMO: la griglia deve avere larghezza "reale" (scrollabile)
-   altrimenti i bordi si fermano alla viewport */
 #yearsRow,
 #rows{
   width:max-content;
   min-width:100%;
 }
 
-/* HEADER YEARS (sticky inside #timeline) */
+/* HEADER YEARS */
 #yearsRow{
   display:flex;
   position:sticky;
@@ -105,7 +100,6 @@ body{
   box-shadow: 0 2px 0 rgba(0,0,0,0.03);
 }
 
-/* Corner header (nazioni) */
 .cornerCell{
   width:var(--nationColW);
   min-width:var(--nationColW);
@@ -119,7 +113,6 @@ body{
   color:#111;
 }
 
-/* Year header cell */
 .yearCell{
   width:var(--cellWidth);
   min-width:var(--cellWidth);
@@ -131,10 +124,7 @@ body{
   background:#fff;
 }
 
-/* Intro header cell */
-.yearIntro{
-  background:#f0f1f3;
-}
+.yearIntro{ background:#f0f1f3; }
 
 /* ROW */
 .nationRow{
@@ -142,12 +132,11 @@ body{
   width:max-content;
   min-width:100%;
   border-bottom:1px solid #e6e8ec;
-  border-top:1px solid #000;  /* richiesto: continuo */
+  border-top:1px solid #000;
   cursor:grab;
   background: transparent;
 }
 
-/* Nation label column sticky */
 .nationLabel{
   width:var(--nationColW);
   min-width:var(--nationColW);
@@ -159,7 +148,6 @@ body{
   border-right:1px solid #e1e4ea;
   font-weight:700;
   color:#111;
-
   display:flex;
   align-items:flex-start;
   gap:10px;
@@ -182,10 +170,7 @@ body{
   min-width:0;
 }
 
-.nationName{
-  font-weight:900;
-  line-height:1.15;
-}
+.nationName{ font-weight:900; line-height:1.15; }
 
 .nationCaption{
   font-weight:600;
@@ -194,11 +179,8 @@ body{
   line-height:1.15;
 }
 
-.cells{
-  display:flex;
-}
+.cells{ display:flex; }
 
-/* CELL */
 .cell{
   width:var(--cellWidth);
   min-width:var(--cellWidth);
@@ -207,17 +189,8 @@ body{
   background: transparent;
 }
 
-/* intro cell (leftmost) */
-.introCell{
-  background: rgba(180, 185, 195, 0.22);
-}
+.introCell{ background: rgba(180, 185, 195, 0.22); }
 
-/* SPAN as single cell */
-.spanCell{
-  /* width/min-width set inline by JS: span * cellWidth */
-}
-
-/* EVENT */
 .event{
   display:flex;
   gap:10px;
@@ -246,15 +219,19 @@ body{
   hyphens:auto;
 }
 
-/* sortable helper */
 .ui-sortable-helper{
   outline:1px solid rgba(0,0,0,0.18);
   box-shadow: 0 10px 20px rgba(0,0,0,0.10);
 }
 
-/* TOOLTIP (jQuery UI) */
-.ui-tooltip{
-  max-width: 380px;
+/* TOOLTIP CUSTOM (nessun elemento injected) */
+#appTooltip{
+  position:fixed;
+  z-index:10000;
+  left:-9999px;
+  top:-9999px;
+  opacity:0;
+  pointer-events:none;
   background:#111;
   color:#fff;
   border:1px solid rgba(255,255,255,0.15);
@@ -263,4 +240,9 @@ body{
   box-shadow: 0 12px 24px rgba(0,0,0,0.18);
   font-size:13px;
   line-height:1.25;
+  max-width: 420px;
+  transition: opacity 80ms linear;
+}
+#appTooltip.show{
+  opacity:1;
 }
